@@ -4,7 +4,7 @@
 
   <groupId>com.gotometrics.orderly</groupId>
   <artifactId>orderly</artifactId>
-  <version>0.9-SNAPSHOT</version>
+  <version>0.9.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Orderly</name>
   <url>https://github.com/NGDATA/orderly</url>
@@ -23,7 +23,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>11.0.2</version>
+      <version>18.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.hadoop</groupId>
@@ -45,6 +45,14 @@
 
   <build>
     <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+         </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>

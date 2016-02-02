@@ -135,13 +135,16 @@ public abstract class AbstractVarIntRowKey extends RowKey
   /** Loads a long integer from Writable w. */
   abstract long getWritable(Writable w);
 
-  /** Gets the number of reserved bits in the header byte. */
+  /** Gets the number of reserved bits in the header byte. 
+   * @return reserved bits
+   * */
   public int getReservedBits() { return reservedBits; }
 
   /** Gets the maximum number of reserved bits.
    * This is equal to the minimum number of data bits in the header,
    * which is always the number of data bits in the extended length 
    * header type. Typical values are 2-3 bits.
+   * @return max reserved bits
    */
   public int getMaxReservedBits() { return HEADER_EXT_DATA_BITS; }
 
@@ -175,7 +178,8 @@ public abstract class AbstractVarIntRowKey extends RowKey
     return this;
   }
 
-  /** Gets the reserved header value. */
+  /** Gets the reserved header value. 
+   * @return reserved value*/
   public int getReservedValue() { return reservedValue; }
 
   /** Gets the sign bit of a 64-bit integer x. 
@@ -186,8 +190,10 @@ public abstract class AbstractVarIntRowKey extends RowKey
 
   /** Reads a byte from long x. Any bytes read past the end of the long are 
    * set to the sign bit.
+   * @param x read data
    * @param byteOffset the offset of the byte to read (starting from the least
    *                   significant byte)
+   * @return the byte
    */
   protected byte readByte(long x, int byteOffset)
   {
@@ -249,6 +255,7 @@ public abstract class AbstractVarIntRowKey extends RowKey
 
   /** Gets the final masked, serialized null value header byte with reserved 
    * bits set. 
+   * @return null
    */
   protected byte getNull() { 
     int nullHeader = mask(NULL) & (0xff >>> reservedBits);
@@ -257,6 +264,8 @@ public abstract class AbstractVarIntRowKey extends RowKey
 
   /** Returns true if the header is for a NULL value. Assumes header is in its
    * final serialized form (masked, reserved bits if any are present).
+   * @param h byte to check
+   * @return is h null
    */
   protected boolean isNull(byte h) { 
     return (mask(h) & (0xff >>> reservedBits)) == NULL;
@@ -281,7 +290,9 @@ public abstract class AbstractVarIntRowKey extends RowKey
    */
   protected byte serializeNonNullHeader(byte h) { return h; }
 
-  /** Gets the number of data bits in the header byte.  */
+  /** Gets the number of data bits in the header byte. 
+   * @param length length of header data bits
+   * @return number of header */
   protected int getNumHeaderDataBits(int length) {
     if (length == 1)
       return HEADER_SINGLE_DATA_BITS - reservedBits;
