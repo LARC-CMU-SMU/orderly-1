@@ -32,6 +32,10 @@ public class RowKeyUtils
   /** Converts a (byte array, offset, length) triple into a byte array,
    * copying only if necessary. No copy is performed if offset is 0 and
    * length is array.length. 
+   * @param b byte array input
+   * @param offset offset
+   * @param length length
+   * @return byte array
    */
   public static byte[] toBytes(byte[] b, int offset, int length) {
     if (offset == 0 && length == b.length) 
@@ -43,13 +47,17 @@ public class RowKeyUtils
 
   /** Converts an ImmutableBytesWritable to a byte array, copying only if
    * necessary.
-   */
+   * @param w ImmutablesBytesWritable input
+   * @return byte array
+   */ 
   public static byte[] toBytes(ImmutableBytesWritable w) {
     return toBytes(w.get(), w.getOffset(), w.getLength());
   }
 
   /** Converts a Text object to a byte array, copying only if
    * necessary.
+   * @param t a text object
+   * @return byte array
    */
   public static byte[] toBytes(Text t) {
     return toBytes(t.getBytes(), 0, t.getLength());

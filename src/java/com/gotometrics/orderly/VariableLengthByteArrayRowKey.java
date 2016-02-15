@@ -25,7 +25,7 @@ import org.apache.hadoop.io.BytesWritable;
 
 /**
  * Serialize and deserialize byte arrays into a variable-length byte array.
- * <p/>
+ * <p>
  * The serialization and deserialization methods are identical to {@link com.gotometrics.orderly.VariableLengthBytesWritableRowKey}
  * after converting the BytesWritable to/from a byte[].
  */

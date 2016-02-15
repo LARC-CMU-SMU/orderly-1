@@ -84,17 +84,22 @@ public abstract class RowKey
 
   public RowKey() { this.order = Order.ASCENDING; }
 
-  /** Sets the sort order of the row key - ascending or descending. 
+  /** Sets the sort order of the row key - ascending or descending.
+   * @param order sort otder
+   * @return the rowkey 
    */ 
   public RowKey setOrder(Order order) { this.order = order; return this; }
 
-  /** Gets the sort order of the row key - ascending or descending */
+  /** Gets the sort order of the row key - ascending or descending 
+   * @return the sort order
+   * */
   public Order getOrder() { return order; }
 
   /** Returns true if the row key serialization must be explicitly terminated 
    * in some fashion (such as a terminator byte or a self-describing length).
    * If this is false, the end of the byte array may serve as an implicit 
    * terminator. Defaults to false.
+   * @return must terminate
    */
   public boolean mustTerminate() { return mustTerminate; }
 
@@ -102,6 +107,8 @@ public abstract class RowKey
    * the end of the byte array can be used to terminate encoded values. You
    * should only set this value if you are adding a custom byte value suffix
    * to a row key.
+   * @param mustTerminate mustTerminate flag
+   * @return the row key
    */
   public RowKey setMustTerminate(boolean mustTerminate) {
     this.mustTerminate = mustTerminate;
@@ -113,17 +120,20 @@ public abstract class RowKey
 
   /** Gets the class of the object used for serialization.
    * @see #serialize
+   * @return Class of the object used for serialization
    */
   public abstract Class<?> getSerializedClass();
 
   /** Gets the class of the object used for deserialization.
    * @see #deserialize
+   * @return class of the object
    */
   public Class<?> getDeserializedClass() { return getSerializedClass(); }
 
   /** Gets the length of the byte array when serializing an object.
    * @param o object to serialize
    * @return the length of the byte array used to serialize o
+   * @throws IOException IO Exception
    */
   public abstract int getSerializedLength(Object o) throws IOException;
 
@@ -133,6 +143,7 @@ public abstract class RowKey
    * (decremented) by the number of bytes used to serialize o.
    * @param o object to serialize
    * @param w byte array used to store the serialized object
+   * @throws IOException IO Exception
    */
   public abstract void serialize(Object o, ImmutableBytesWritable w) 
     throws IOException;
@@ -159,6 +170,7 @@ public abstract class RowKey
    * bytes in the serialized key. The offset (length) of the byte array is 
    * incremented (decremented) by the number of bytes in the serialized key.
    * @param w the byte array containing the serialized key
+   * @throws IOException IO Exception
    */
   public abstract void skip(ImmutableBytesWritable w) throws IOException;
 
@@ -169,6 +181,7 @@ public abstract class RowKey
    * incremented (decremented) by the number of bytes in the serialized key.
    * @param w the byte array used for key deserialization
    * @return the deserialized key from the current position in the byte array
+   * @throws IOException IO Exception
    */
   public abstract Object deserialize(ImmutableBytesWritable w)
     throws IOException;
@@ -187,6 +200,8 @@ public abstract class RowKey
   /** Orders serialized byte b by XOR'ing it with the sort order mask. This
    * allows descending sort orders to invert the byte values of the serialized
    * byte stream.
+   * @param b byte to be masked
+   * @return the serialized byte b
    */
   protected byte mask(byte b) {
     return (byte) (b ^ order.mask());

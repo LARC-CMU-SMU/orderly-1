@@ -26,7 +26,7 @@ import org.apache.hadoop.io.BytesWritable;
 
 /**
  * Serializes and deserializes BytesWritable into a fixed length sortable representation.
- * <p/>
+ * <p>
  * TODO: this doesn't support NULL values (because they can not be distinguished from empty arrays). Should I
  * explicitely check for this?
  */

@@ -64,17 +64,25 @@ public class StructIterator implements Iterator<Object>
   /** Creates a struct row key iterator. */
   public StructIterator() { }
 
-  /** Sets the struct row key used for deserialization. */
+  /** Sets the struct row key used for deserialization. 
+   * @param rowKey struct row key used for deserialization
+   * @return StructIterator instance
+   * */
   public StructIterator setRowKey(StructRowKey rowKey) {
     this.rowKey = rowKey;
     this.fields = rowKey.getFields();
     return this;
   }
 
-  /** Gets the struct row key used for deserialization. */
+  /** Gets the struct row key used for deserialization. 
+   * @return StructRowKey
+   * */
   public StructRowKey getRowKey() { return rowKey; }
 
-  /** Sets the serialized byte array to read from. */
+  /** Sets the serialized byte array to read from. 
+   * @param w the serialized byte array to read from
+   * @return StructIterator instance
+   * */
   public StructIterator setBytes(ImmutableBytesWritable w) {
     this.w = w;
     this.fieldPos = 0;
@@ -85,6 +93,7 @@ public class StructIterator implements Iterator<Object>
 
   /** Gets the serialized byte array to read from. The array offset and length
    * are set to the current position.
+   * @return the serialized byte array to read from
    */
   public ImmutableBytesWritable getBytes() { return w; }
 
@@ -97,11 +106,14 @@ public class StructIterator implements Iterator<Object>
 
   /** Skips the current field and increments read position by the number
    * of bytes read. 
+   * @throws IOException IO Exception
    */
   public void skip() throws IOException { fields[fieldPos++].skip(w); }
 
   /** Deserializes the current field and increments read position by the
    * number of bytes read. 
+   * @return deserialized object
+   * @throws IOException IO Exception
    */
   public Object deserialize() throws IOException {
     return fields[fieldPos++].deserialize(w);

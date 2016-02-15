@@ -71,6 +71,9 @@ public class LazyBigDecimalRowKey extends BigDecimalRowKey
    * byte array. After this method is called, the position (length) of the byte
    * array will be incremented (decremented) by the length of the serialized
    * <code>BigDecimal</code>.
+   * @param w byte array input
+   * @return big decimal in the current position of the byte array
+   * @throws IOException IO Exception
    */
   public BigDecimal getBigDecimal(ImmutableBytesWritable w) throws IOException {
     return (BigDecimal)super.deserialize(w);

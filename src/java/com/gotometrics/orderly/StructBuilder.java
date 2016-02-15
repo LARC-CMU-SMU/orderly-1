@@ -49,22 +49,35 @@ public class StructBuilder
     return this;
   }
 
-  /** Gets the field row key at field index i. */
+  /** Gets the field row key at field index i. 
+   * @param i index
+   * @return row key
+   * 
+   * */
   public RowKey get(int i) { return fields.get(i); }
 
-  /** Gets all field row keys. */
+  /** Gets all field row keys. 
+   * @return all field row keys
+   * */
   public List<RowKey> getFields() { return fields; }
 
-  /** Sets the sort order of the struct. Default is ascending. */
+  /** Sets the sort order of the struct. Default is ascending. 
+   * @param order sort order of the struct
+   * @return StructBuilder instance
+   * */
   public StructBuilder setOrder(Order order) {
     this.order = order;
     return this;
   }
 
-  /** Gets the sort order of the struct definition. */
+  /** Gets the sort order of the struct definition. 
+   * @return sort order
+   * */
   public Order getOrder() { return order; }
 
-  /** Creates a struct row key. */
+  /** Creates a struct row key. 
+   * @return struct row key
+   * */
   public StructRowKey toRowKey() {
     RowKey[] fields = this.fields.toArray(new RowKey[0]);
     return (StructRowKey) new StructRowKey(fields).setOrder(order);
@@ -72,6 +85,7 @@ public class StructBuilder
 
   /** Resets the struct builder. Removes all fields, sets sort order to 
    * ascending.
+   * @return this StructBuilder instance
    */
   public StructBuilder reset() { 
     fields.clear();

@@ -357,6 +357,8 @@ public abstract class AbstractVarIntRowKey extends RowKey
    * sign stored its most significant bit, and all other bits clear. Assumes the
    * header byte has its mask and reserved bits, if any, removed (equivalent to
    * a header byte serialized with reservedBits = 0 and order ascending).
+   * @param h byte to evaluate
+   * @return sign
    */
   protected abstract byte getSign(byte h);
 
@@ -365,6 +367,8 @@ public abstract class AbstractVarIntRowKey extends RowKey
    * The header byte is assumed to have had its mask if, any removed (equivalent
    * to a header byte serialized in ascending order). However, the header byte 
    * does still contains its reserved bits.
+   * @param h byte to evaluate
+   * @return resulted byte
    */
   protected byte deserializeNonNullHeader(byte h) { return h; }
 
@@ -372,6 +376,8 @@ public abstract class AbstractVarIntRowKey extends RowKey
    * Assumes the header byte has its mask and reserved bits, if any, 
    * removed (equivalent to a header byte serialized with reservedBits = 0
    * and order ascending).
+   * @param h byte to evaluate
+   * @return length of var int
    */
   protected int getVarIntLength(byte h) {
     int negSign = ~getSign(h) >> Integer.SIZE - 1;

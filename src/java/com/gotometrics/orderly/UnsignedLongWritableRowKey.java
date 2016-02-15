@@ -67,7 +67,6 @@ import org.apache.hadoop.hbase.util.Bytes;
  *        &le; 2<sup>8 &times; (N-1) + 3</sup> - 1
  * </ul>
  * We support all values that can be represented in a java Long, so N &le; 9.
- * </p>
  *
  * <h2> Reserved Bits </h2>
  * Up to three of the most significant bits in the header may be reserved for 

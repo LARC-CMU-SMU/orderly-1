@@ -125,7 +125,8 @@ public class StructRowKey extends RowKey implements Iterable<Object>
     return this;
   }
 
-  /** Gets the field row keys. */
+  /** Gets the field row keys. 
+   * @return field row keys*/
   public RowKey[] getFields() { return fields; }
 
   @Override

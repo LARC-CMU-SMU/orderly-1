@@ -194,7 +194,9 @@ public class BigDecimalRowKey extends RowKey
   /** Gets the length of a String if serialized in our BCD format. We require
    * 1 byte for every 2 characters, rounding up. Furthermore, if the number
    * of characters is even, we require an additional byte for the
-   * terminator nibble if terminate() is true.
+   * terminator nibble if terminate() is true. 
+   * @param s input string to check
+   * @return serialized length of the string
    */
   protected int getSerializedLength(String s) { 
     return (s.length() + (terminate() ? 2 : 1)) >>> 1; 
@@ -225,7 +227,11 @@ public class BigDecimalRowKey extends RowKey
     RowKeyUtils.seek(w, bcdLength);
   }
 
-  /** Converts an arbitrary precision integer to an unsigned decimal string. */
+  /** Converts an arbitrary precision integer to an unsigned decimal string. 
+   * @param i big integer
+   * @return unsigned decimal string
+   * 
+   * */
   protected String getDecimalString(BigInteger i) {
     String s = i.toString();
     return i.signum() >= 0 ? s : s.substring(1); /* skip leading '-' */
@@ -292,6 +298,9 @@ public class BigDecimalRowKey extends RowKey
   /** Decodes a Binary Coded Decimal digit and adds it to a string. Returns 
    * true (and leaves string unmodified) if digit is the terminator byte.
    * Returns false otherwise.
+   * @param bcd a Binary Coded Decimal digit to be decoded
+   * @param sb string to be added
+   * @return true if digit is the terminator byte
    */
   protected boolean addDigit(byte bcd, StringBuilder sb) {
     if (bcd == 0)
@@ -302,6 +311,8 @@ public class BigDecimalRowKey extends RowKey
 
   /** Converts a packed, zero nibble-terminated BCD byte array into an unsigned 
    * decimal String. 
+   * @param w a packed, zero nibble-terminated BCD byte array
+   * @return unsigned decimal String
    */
   protected String deserializeBCD(ImmutableBytesWritable w) {
     byte[] b = w.get();

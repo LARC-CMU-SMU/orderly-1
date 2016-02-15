@@ -28,23 +28,23 @@ import org.apache.hadoop.io.BytesWritable;
  * Serializes and deserializes BytesWritable into a sortable variable length representation.
  *
  * <h1>Serialization Format</h1>
- * <p/>
+ * <p>
  * Variable length byte arrays can not be written simply as the original byte array, because this would leave us
  * without any usable byte (or byte sequence) to mark the end of the byte array. We can also not simply write
  * the length of the array in a fixed number of bytes in the beginning of the output, because this would mean
  * the rowkeys can no longer be sorted and "prefix searched". This impacts things like splitting tables over
  * regions etc.
- * <p/>
+ * <p>
  * Therefor we use a variant of packed binary coded decimal (BCD). We start by interpreting the byte array
  * as an unsigned variable length integer number represented in decimal format (using only digits 0 - 9).
  * Packed BCD encodes each digit (0 - 9) into a 4 bit nibble (binary 0000 - 1001) and "packs" two of these nibbles
  * into one byte.
- * <p/>
+ * <p>
  * BCD only uses the byte range (binary) 00000000 - 10011001. This results in an uneven distribution of values
  * over the whole possible range, resulting in problems with splitting tables over regions based on predefined
  * byte ranges for each region. To solve this, we modified BCD with a mapping from digits to 4 bit values
  * which uses the range more evenly. Furthermore, we reserve a number of small nibbles for special purposes.
- * <p/>
+ * <p>
  * The modified mapping is:
  * <pre>
  * digit 0 = binary 0011 (0x03)
@@ -63,7 +63,7 @@ import org.apache.hadoop.io.BytesWritable;
  * chosen the nibble 0000 for NULL values and the nibble 0001 as terminator. This ensures that shorter byte arrays that
  * are the prefix of a longer byte array will always compare less than the longer string, as the terminator is a
  * smaller value that any decimal digit.
- * <p/>
+ * <p>
  * Furthermore, we also want that if we encode two byte arrays of the same length, that the resulting encoded byte
  * arrays are also of the same length and that their byte order is the same as the byte order of the original byte
  * arrays. Also, when encoding two byte arrays of different lengths, the byte order of the encoded byte arrays should
@@ -71,7 +71,7 @@ import org.apache.hadoop.io.BytesWritable;
  * always using the same number of encoded bytes per original byte (i.e. 3 nibbles per original byte, so a loss of
  * 50%).
  * The filler nibble should be smaller than any real encoded value, but bigger than the nibbles used for zero and NULL.
- * <p/>
+ * <p>
  * To encode a NULL, we output 0x00 and return. Otherwise, to encode a non-NULL
  * byte array we BCD encode the byte array and then append the
  * terminator nibble at the end. Decoding is simply the reverse of the above
@@ -300,6 +300,9 @@ public class VariableLengthBytesWritableRowKey extends RowKey {
      * Decodes a Binary Coded Decimal digit and adds it to a string. Returns
      * true (and leaves string unmodified) if digit is the terminator nibble.
      * Returns false otherwise.
+     * @param bcd Binary Coded Decimal input
+     * @param sb StringBuilder to be added
+     * @return true (and leaves string unmodified) if digit is the terminator nibble.
      */
     protected boolean addDigit(byte bcd, StringBuilder sb) {
         if (bcd == TERMINATOR_NIBBLE) {
